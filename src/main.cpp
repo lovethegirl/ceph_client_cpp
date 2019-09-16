@@ -75,7 +75,9 @@ int main(int argc, const char **argv)
         {
                 std::cout<<"ioctx_create fail"<<std::endl;
                 ret = EXIT_FAILURE;
-                goto out;
+                rados.pool_delete(pool_name);
+                rados.shutdown();
+                return ret;
         }
         std::cout<<"we just create an ioctx for out pool"<<std::endl;
 
@@ -87,7 +89,9 @@ int main(int argc, const char **argv)
         {
                 std::cout<<"count't write object "<<std::endl;
                 ret =  EXIT_FAILURE;
-                goto out;
+                rados.pool_delete(pool_name);
+                rados.shutdown();
+                return ret;
         }
         std::cout<<"we jsut crote new object"<<object_name<<std::endl;
 
@@ -101,7 +105,9 @@ int main(int argc, const char **argv)
     if (ret < 0) {
       std::cerr << "couldn't start read object! error " << ret << std::endl;
       ret = EXIT_FAILURE;
-      goto out;
+      rados.pool_delete(pool_name); 
+      rados.shutdown();
+      return ret;
     }
     // wait for the request to complete, and check that it succeeded.
     read_completion->wait_for_complete();
@@ -109,7 +115,9 @@ int main(int argc, const char **argv)
     if (ret < 0) {
       std::cerr << "couldn't read object! error " << ret << std::endl;
       ret = EXIT_FAILURE;
-      goto out;
+      rados.pool_delete(pool_name);
+      rados.shutdown();
+      return ret;
     }
     std::cout << "we read our object " << object_name
               << ", and got back " << ret << " bytes with contents\n";
@@ -118,7 +126,6 @@ int main(int argc, const char **argv)
     std::cout << read_string << std::endl;
   }
   ret = EXIT_SUCCESS;
-  out:
   int delete_ret=rados.pool_delete(pool_name);
   if(delete_ret<0)
   {
