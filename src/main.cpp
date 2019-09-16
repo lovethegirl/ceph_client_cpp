@@ -8,7 +8,7 @@ int main(int argc, const char **argv)
         int ret = 0;
 
         /* Declare the cluster handle and required variables. */
-        librados::Rados cluster;
+        librados::Rados rados;
         char cluster_name[] = "ceph";
         char user_name[] = "client.admin";
         uint64_t flags = 0;
@@ -19,7 +19,7 @@ int main(int argc, const char **argv)
 
         /* Initialize the cluster handle with the "ceph" cluster name and "client.admin" user */
         {
-                ret = cluster.init2(user_name, cluster_name, flags);
+                ret = rados.init2(user_name, cluster_name, flags);
                 if (ret < 0) {
                         std::cerr << "Couldn't initialize the cluster handle! error " << ret << std::endl;
                         return EXIT_FAILURE;
@@ -30,7 +30,7 @@ int main(int argc, const char **argv)
 
         /* Read a Ceph configuration file to configure the cluster handle. */
         {
-                ret = cluster.conf_read_file("/etc/ceph/ceph.conf");
+                ret = rados.conf_read_file("/etc/ceph/ceph.conf");
                 if (ret < 0) {
                         std::cerr << "Couldn't read the Ceph configuration file! error " << ret << std::endl;
                         return EXIT_FAILURE;
@@ -52,7 +52,7 @@ int main(int argc, const char **argv)
 
         /* Connect to the cluster */
         {
-                ret = cluster.connect();
+                ret = rados.connect();
                 if (ret < 0) {
                         std::cerr << "Couldn't connect to cluster! error " << ret << std::endl;
                         return EXIT_FAILURE;
@@ -65,7 +65,7 @@ int main(int argc, const char **argv)
         ret = rados.pool_create(pool_name);
         if(ret<0)
         {
-           std::out<<"countn't create pool"<<std::endl;
+           std::cout<<"countn't create pool"<<std::endl;
            return EXIT_FAILURE;                
         }
         std::cout<<"we jsut create a new pool named"<<pool_name<<std::endl;
@@ -118,14 +118,13 @@ int main(int argc, const char **argv)
     std::cout << read_string << std::endl;
   }
   ret = EXIT_SUCCESS;
-
-        out:
-         int delete_ret=rados.pool_delete(pool_name);
-         if(delete_ret<0)
-         {
-                 std::cout<<"we faild to delete our test pool"<<std::endl;
-                 return = EXIT_FAILURE;
-         }
-         rados.shutdown();
-         return ret;
+  out:
+  int delete_ret=rados.pool_delete(pool_name);
+  if(delete_ret<0)
+  {
+          std::cout<<"we faild to delete our test pool"<<std::endl;
+          return = EXIT_FAILURE;
+  }
+  rados.shutdown();
+  return ret;
 }
