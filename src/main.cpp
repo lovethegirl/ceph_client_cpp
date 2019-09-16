@@ -41,7 +41,7 @@ int main(int argc, const char **argv)
 
         /* Read command line arguments */
         {
-                ret = cluster.conf_parse_argv(argc, argv);
+                ret = rados.conf_parse_argv(argc, argv);
                 if (ret < 0) {
                         std::cerr << "Couldn't parse command line options! error " << ret << std::endl;
                         return EXIT_FAILURE;
@@ -130,7 +130,7 @@ int main(int argc, const char **argv)
   if(delete_ret<0)
   {
           std::cout<<"we faild to delete our test pool"<<std::endl;
-          return = EXIT_FAILURE;
+          ret=EXIT_FAILURE;
   }
   rados.shutdown();
   return ret;
