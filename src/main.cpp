@@ -12,7 +12,7 @@ int main(int argc, const char **argv)
         char cluster_name[] = "ceph";
         char user_name[] = "client.admin";
         uint64_t flags = 0;
-        const char * pool_name="hello_world_pool";
+        const char * pool_name="pool1";
         std::string hello("hello wrold");
         std::string object_name("hw");
         librados::IoCtx io_ctx;
@@ -62,20 +62,20 @@ int main(int argc, const char **argv)
         }
         std::cout<<"this is a start"<<std::endl;
 
-        ret = rados.pool_create(pool_name);
+       /* ret = rados.pool_create(pool_name);
         if(ret<0)
         {
            std::cout<<"countn't create pool"<<std::endl;
            return EXIT_FAILURE;                
-        }
-        std::cout<<"we jsut create a new pool named"<<pool_name<<std::endl;
+        }*/
+        //std::cout<<"we jsut create a new pool named"<<pool_name<<std::endl;
 
         ret = rados.ioctx_create(pool_name,io_ctx);
         if(ret<0)
         {
                 std::cout<<"ioctx_create fail"<<std::endl;
                 ret = EXIT_FAILURE;
-                rados.pool_delete(pool_name);
+              //  rados.pool_delete(pool_name);
                 rados.shutdown();
                 return ret;
         }
@@ -89,7 +89,7 @@ int main(int argc, const char **argv)
         {
                 std::cout<<"count't write object "<<std::endl;
                 ret =  EXIT_FAILURE;
-                rados.pool_delete(pool_name);
+               // rados.pool_delete(pool_name);
                 rados.shutdown();
                 return ret;
         }
@@ -105,7 +105,7 @@ int main(int argc, const char **argv)
     if (ret < 0) {
       std::cerr << "couldn't start read object! error " << ret << std::endl;
       ret = EXIT_FAILURE;
-      rados.pool_delete(pool_name); 
+     // rados.pool_delete(pool_name); 
       rados.shutdown();
       return ret;
     }
@@ -115,7 +115,7 @@ int main(int argc, const char **argv)
     if (ret < 0) {
       std::cerr << "couldn't read object! error " << ret << std::endl;
       ret = EXIT_FAILURE;
-      rados.pool_delete(pool_name);
+    //  rados.pool_delete(pool_name);
       rados.shutdown();
       return ret;
     }
@@ -126,12 +126,12 @@ int main(int argc, const char **argv)
     std::cout << read_string << std::endl;
   }
   ret = EXIT_SUCCESS;
-  int delete_ret=rados.pool_delete(pool_name);
+ /* int delete_ret=rados.pool_delete(pool_name);
   if(delete_ret<0)
   {
           std::cout<<"we faild to delete our test pool"<<std::endl;
           ret=EXIT_FAILURE;
-  }
+  }*/
   rados.shutdown();
   return ret;
 }
