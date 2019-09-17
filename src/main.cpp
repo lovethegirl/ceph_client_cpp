@@ -125,6 +125,19 @@ int main(int argc, const char **argv)
     read_buf.copy(0, ret, read_string);
     std::cout << read_string << std::endl;
   }
+
+  std::cout<<"start remove object "<<object_name<<std::endl;
+  ret=io_ctx.remove(object_name);
+  {
+          if(res<0)
+          {
+                  std::cout<<"remove object fail"<<std::endl;
+                  ret=EXIT_FAILURE;
+                  rados.shutdown();
+                  return res;
+          }
+  }
+  std::cout<<"remove obejct sucessful"<<std::endl;
   ret = EXIT_SUCCESS;
  /* int delete_ret=rados.pool_delete(pool_name);
   if(delete_ret<0)
