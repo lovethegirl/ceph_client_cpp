@@ -129,12 +129,12 @@ int main(int argc, const char **argv)
   std::cout<<"start remove object "<<object_name<<std::endl;
   ret=io_ctx.remove(object_name);
   {
-          if(res<0)
+          if(ret<0)
           {
                   std::cout<<"remove object fail"<<std::endl;
                   ret=EXIT_FAILURE;
                   rados.shutdown();
-                  return res;
+                  return ret;
           }
   }
   std::cout<<"remove obejct sucessful"<<std::endl;
