@@ -30,15 +30,15 @@ int CephClient::Init(std::string pool_name,std::string cluster_name,std::string 
     } else {
         std::cout << "Read the Ceph configuration file." << std::endl;
     }
-    {
-    ret = rados.conf_parse_argv(argc, argv);
+    //{
+/*    ret = rados.conf_parse_argv(argc, argv);
     if (ret < 0) {
         std::cerr << "Couldn't parse command line options! error " << ret << std::endl;
         return EXIT_FAILURE;
     } else {
         std::cout << "Parsed command line options." << std::endl;
         }
-    }
+    }*/
     ret = rados.connect();
     if(ret<0)
     {
@@ -51,7 +51,7 @@ int CephClient::Init(std::string pool_name,std::string cluster_name,std::string 
     }
     
 
-    ret = rados.ioctx_create(pool_name,io_ctx);
+    ret = rados.ioctx_create(pool_name.c_str(),io_ctx);
     if(ret<0)
     {
         ret=EXIT_FAILURE;

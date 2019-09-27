@@ -123,6 +123,33 @@ ceph-client/fast:
 	$(MAKE) -f CMakeFiles/ceph-client.dir/build.make CMakeFiles/ceph-client.dir/build
 .PHONY : ceph-client/fast
 
+src/cephclient.o: src/cephclient.cpp.o
+
+.PHONY : src/cephclient.o
+
+# target to build an object file
+src/cephclient.cpp.o:
+	$(MAKE) -f CMakeFiles/ceph-client.dir/build.make CMakeFiles/ceph-client.dir/src/cephclient.cpp.o
+.PHONY : src/cephclient.cpp.o
+
+src/cephclient.i: src/cephclient.cpp.i
+
+.PHONY : src/cephclient.i
+
+# target to preprocess a source file
+src/cephclient.cpp.i:
+	$(MAKE) -f CMakeFiles/ceph-client.dir/build.make CMakeFiles/ceph-client.dir/src/cephclient.cpp.i
+.PHONY : src/cephclient.cpp.i
+
+src/cephclient.s: src/cephclient.cpp.s
+
+.PHONY : src/cephclient.s
+
+# target to generate assembly for a file
+src/cephclient.cpp.s:
+	$(MAKE) -f CMakeFiles/ceph-client.dir/build.make CMakeFiles/ceph-client.dir/src/cephclient.cpp.s
+.PHONY : src/cephclient.cpp.s
+
 src/main.o: src/main.cpp.o
 
 .PHONY : src/main.o
@@ -159,6 +186,9 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... edit_cache"
 	@echo "... ceph-client"
+	@echo "... src/cephclient.o"
+	@echo "... src/cephclient.i"
+	@echo "... src/cephclient.s"
 	@echo "... src/main.o"
 	@echo "... src/main.i"
 	@echo "... src/main.s"

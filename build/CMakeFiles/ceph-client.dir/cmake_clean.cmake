@@ -1,6 +1,7 @@
 file(REMOVE_RECURSE
   "../ceph-client"
   "../ceph-client.pdb"
+  "CMakeFiles/ceph-client.dir/src/cephclient.cpp.o"
   "CMakeFiles/ceph-client.dir/src/main.cpp.o"
 )
 

@@ -22,6 +22,7 @@ class CephClient
 //    int Imagewrite();
 //    int Imageread();
 //    int ImageCreateSnap(std::string snap_name);
+ private:
    Name name;
    librados::Rados rados;
    librados::IoCtx io_ctx;

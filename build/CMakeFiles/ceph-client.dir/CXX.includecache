@@ -6,11 +6,17 @@
 
 #IncludeRegexTransform: 
 
-/root/workspace/code/client/ceph_client_cpp/src/main.cpp
+/root/workspace/code/client/ceph_client_cpp/include/cephclient.h
+rados/librados.hpp
+-
+rbd/librbd.hpp
+-
 iostream
 -
 string
 -
-rados/librados.hpp
--
+
+/root/workspace/code/client/ceph_client_cpp/src/cephclient.cpp
+../include/cephclient.h
+/root/workspace/code/client/ceph_client_cpp/include/cephclient.h
 

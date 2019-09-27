@@ -74,12 +74,12 @@ preinstall:
 CMakeFiles/ceph-client.dir/all:
 	$(MAKE) -f CMakeFiles/ceph-client.dir/build.make CMakeFiles/ceph-client.dir/depend
 	$(MAKE) -f CMakeFiles/ceph-client.dir/build.make CMakeFiles/ceph-client.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/root/workspace/code/client/ceph_client_cpp/build/CMakeFiles --progress-num=1,2 "Built target ceph-client"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/root/workspace/code/client/ceph_client_cpp/build/CMakeFiles --progress-num=1,2,3 "Built target ceph-client"
 .PHONY : CMakeFiles/ceph-client.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/ceph-client.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /root/workspace/code/client/ceph_client_cpp/build/CMakeFiles 2
+	$(CMAKE_COMMAND) -E cmake_progress_start /root/workspace/code/client/ceph_client_cpp/build/CMakeFiles 3
 	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/ceph-client.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /root/workspace/code/client/ceph_client_cpp/build/CMakeFiles 0
 .PHONY : CMakeFiles/ceph-client.dir/rule

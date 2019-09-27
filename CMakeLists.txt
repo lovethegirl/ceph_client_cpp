@@ -1,7 +1,7 @@
 cmake_minimum_required (VERSION 2.6)
 project (ceph-client)
 MESSAGE(STATUS "Project Directory:" ${PROJECT_SOURCE_DIR})#打印消息
-set(CMAKE_CXX_FLAGS "-pipe -g -std=c++11 -lrados lrbd -W -Wall -Wno-unused-parameter -Wno-deprecated-declarations -Wno-reorder -fPIC")
+set(CMAKE_CXX_FLAGS "-pipe -g -std=c++11 -lrados -lrbd -W -Wall -Wno-unused-parameter -Wno-deprecated-declarations -Wno-reorder -fPIC")
 set(PROJECT_DIR  ${CMAKE_CURRENT_SOURCE_DIR})
 set (EXECUTABLE_OUTPUT_PATH "${PROJECT_DIR}/") 
 file(GLOB_RECURSE CPP_SOURCES "${PROJECT_DIR}/src/*.cpp")

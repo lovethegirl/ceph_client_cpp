@@ -1,1 +1,1 @@
-/usr/bin/c++  -pipe -g -std=c++11 -lrados -W -Wall -Wno-unused-parameter -Wno-deprecated-declarations -Wno-reorder -fPIC  -rdynamic CMakeFiles/ceph-client.dir/src/main.cpp.o  -o ../ceph-client 
+/usr/bin/c++  -pipe -g -std=c++11 -lrados -lrbd -W -Wall -Wno-unused-parameter -Wno-deprecated-declarations -Wno-reorder -fPIC  -rdynamic CMakeFiles/ceph-client.dir/src/cephclient.cpp.o CMakeFiles/ceph-client.dir/src/main.cpp.o  -o ../ceph-client 
