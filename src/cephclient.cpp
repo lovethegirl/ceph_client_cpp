@@ -7,7 +7,7 @@ CephClient::~CephClient()
 {
     std::cout<<"exit a CephClient"<<std::endl;
 }
-int CephClinet::Init(std::string pool_name,std::string cluster_name,std::string user_name,std::string path,std::string image_name)
+int CephClient::Init(std::string pool_name,std::string cluster_name,std::string user_name,std::string path,std::string image_name)
 {
     name.pool_name=pool_name;
     name.image_name=image_name;
@@ -55,11 +55,15 @@ int CephClinet::Init(std::string pool_name,std::string cluster_name,std::string 
     if(ret<0)
     {
         ret=EXIT_FAILURE;
-        std::out<<"ioctx_create fail"<<std::endl;
+        std::cout<<"ioctx_create fail"<<std::endl;
         rados.shutdown();
         return ret;
     }
     std::cout<<"we just create an ioctx for out pool"<<std::endl;
-
-    
+    return 0;
+}
+int CephClient::Exit()
+{
+    rados.shutdown();
+    return 0;
 }

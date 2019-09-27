@@ -15,13 +15,13 @@ class CephClient
    CephClient();
    ~CephClient();
    int Init(std::string pool_name,std::string cluster_name,std::string user_name,std::string path,std::string image_name);
+   int Exit();
 //    int ImageCreate(uint64_t size,int order);
 //    int ImageRemove(std::string image_name);
 //    int ImageOpen();
 //    int Imagewrite();
 //    int Imageread();
 //    int ImageCreateSnap(std::string snap_name);
-   private:
    Name name;
    librados::Rados rados;
    librados::IoCtx io_ctx;
