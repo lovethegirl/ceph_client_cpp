@@ -72,7 +72,7 @@ int CephClient::Exit()
     return 0;
 }
 
-int CephClient::ImageCreate()
+int CephClient::ImageCreate(uint64_t size,int order)
 {
     return 0;
 }
