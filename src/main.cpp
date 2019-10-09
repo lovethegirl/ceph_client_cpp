@@ -19,6 +19,11 @@ if(ret!=0)
         std::cout<<"Cluster Init failed"<<std::endl;
         return EXIT_FAILURE;
 }
+ret = client.ImageOpen();
+if(ret!=0)
+{
+	return 0;
+}
 // ret = client.ObjectWriet(object_name,hello);
 // if(ret!=0)
 // {
@@ -39,7 +44,7 @@ if(ret!=0)
 //         std::cout<<"objectremove failed"<<std::endl;
 //         return ret;
 // }
-std::string snap_name="rbd-ljw@snapshot1";
+std::string snap_name="rbd-ljw@snapshot2";
 ret = client.ImageCreateSnap(snap_name);
 if(ret!=0)
 {

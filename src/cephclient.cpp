@@ -68,6 +68,7 @@ int CephClient::Init(std::string pool_name,std::string cluster_name,std::string 
 }
 int CephClient::Exit()
 {
+    image.close();
     rados.shutdown();
     return 0;
 }
