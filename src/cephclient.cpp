@@ -119,7 +119,7 @@ int CephClient::ImageRemove(std::string imagename)
 }
 
 
-int CephClient::Imagewrite(const char *ch)
+int CephClient::Imagewrite(const char *p_ch)
 {
     size_t len = strlen(ch);
     ceph::bufferlist bl;
@@ -153,7 +153,32 @@ int CephClient::Imageread(std::string &buf,int buf_size)
      return 0;
 }
 
+/*************************************************************************
+ * 
+ * 
+ *                      snapshot operation
+ * 
+ * 
+ *************************************************************************/
 
+
+int CephClient::ImageCreateSnap(std::string snap_name)
+{
+    int ret = image.snap_create(snap_name.c_str());
+    if(ret<0)
+    {
+        std::cout<<"could't create a snapshot"<<ret<<std::endl;
+        rados.shutdown();
+        ret = EXIT_FAILURE;
+        return ret;
+    }
+    return 0;
+}
+
+// int CephClient::ImageRemoveSnap(std::string snap_name)
+// {
+
+// }
 /*************************************************************************
  * 
  * 
