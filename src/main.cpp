@@ -56,4 +56,5 @@ if(ret!=0)
         return ret;
 }
 client.Exit();
+return 0;
 }

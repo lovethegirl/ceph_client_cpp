@@ -31,7 +31,7 @@ class CephClient
    int Imageread(std::string &buf,int buf_size);
    /*********Image Snapshot Operation*****/
    int ImageCreateSnap(std::string snap_name);
-   //int ImageRemoveSnap(std::string snap_name);
+   int ImageRemoveSnap(std::string snap_name);
 
    /********Rados Operation *******/
    int ObjectWriet(std::string object_name,std::string buff);

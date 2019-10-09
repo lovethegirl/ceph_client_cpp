@@ -181,6 +181,7 @@ int CephClient::Imageread(std::string &buf,int buf_size)
 
 int CephClient::ImageCreateSnap(std::string snap_name)
 {
+    std::cout<<"start create snap"<<std::endl;
     int ret = image.snap_create(snap_name.c_str());
     if(ret<0)
     {
@@ -195,6 +196,7 @@ int CephClient::ImageCreateSnap(std::string snap_name)
 
 int CephClient::ImageRemoveSnap(std::string snap_name)
 {
+    std::cout<<"start remove snap"<<std::endl;
     int ret = image.snap_create(snap_name.c_str());
     if(ret<0)
     {
