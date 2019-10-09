@@ -6,10 +6,10 @@ int main(int argc, const char **argv)
 {
 std::string hello("hello wrold");
 std::string object_name("hw");
-std::string pool_name="pool1";
+std::string pool_name="rbd";
 std::string cluster_name="ceph";
 std::string user_name="client.admin";
-std::string image_name="rbd2";
+std::string image_name="rbd-ljw";
 std::string path="/etc/ceph/ceph.conf";
 CephClient client;
 int ret;

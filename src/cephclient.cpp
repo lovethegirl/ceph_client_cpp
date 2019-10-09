@@ -105,6 +105,18 @@ int CephClient::ImageCreate(uint64_t size,int order)
     }
     return 0;
 }
+int CephClient::ImageOpen()
+{
+    int ret = rbd.open(io_ctx,image,name.image_name.c_str(),NULL);
+    if(ret<0)
+    {
+       std::cout << "couldn't open the rbd image! error " << ret << std::endl;
+       rados.shutdown();
+       ret = EXIT_FAILURE;
+       return ret;
+    }
+    return 0;
+}
 int CephClient::ImageRemove(std::string imagename)
 {
     int ret = rbd.remove(io_ctx,imagename.c_str());
@@ -121,9 +133,9 @@ int CephClient::ImageRemove(std::string imagename)
 
 int CephClient::Imagewrite(const char *p_ch)
 {
-    size_t len = strlen(ch);
+    size_t len = strlen(p_ch);
     ceph::bufferlist bl;
-    bl.append(ch, len);
+    bl.append(p_ch, len);
 
     int ret = image.write(0,len,bl);
     if(ret <0)

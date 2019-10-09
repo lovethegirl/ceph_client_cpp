@@ -26,16 +26,17 @@ class CephClient
    /******Imgae operation********/
    int ImageCreate(uint64_t size,int order);
    int ImageRemove(std::string image_name);
+   int ImageOpen();
    int Imagewrite(const char *p_ch);
    int Imageread(std::string &buf,int buf_size);
    /*********Image Snapshot Operation*****/
    int ImageCreateSnap(std::string snap_name);
-   int ImageRemoveSnap(std::string snap_name);
+   //int ImageRemoveSnap(std::string snap_name);
 
    /********Rados Operation *******/
    int ObjectWriet(std::string object_name,std::string buff);
    int ObjectRead(std::string object_name,std::string & read_buff);
-   // int ObjectRemove(std::string object_name);
+   int ObjectRemove(std::string object_name);
  private:
    Name name;
    librados::Rados rados;
