@@ -83,7 +83,7 @@ int CephClient::Exit()
 
 int CephClient::ImageCreate(uint64_t size,int order)
 {
-    int ret=rbd.create(io_ctx,name.image_name,size,&order);
+    int ret=rbd.create(io_ctx,name.image_name.c_str(),size,&order);
     if(ret<0)
     {
         std::cout<<"couldn't create an rbd image! error " << ret << std::endl;
@@ -99,7 +99,7 @@ int CephClient::ImageCreate(uint64_t size,int order)
     if(ret<0)
     {
        std::cout << "couldn't open the rbd image! error " << ret << std::endl;
-       rados.shutdwon();
+       rados.shutdown();
        ret = EXIT_FAILURE;
        return ret;
     }
@@ -125,7 +125,7 @@ int CephClient::Imagewrite(const char *ch)
     ceph::bufferlist bl;
     bl.append(ch, len);
 
-    int ret = image.write(0,len.bl);
+    int ret = image.write(0,len,bl);
     if(ret <0)
     {
         std::cout<<"could't write rbd to rados"<<ret<<std::endl;
@@ -133,7 +133,7 @@ int CephClient::Imagewrite(const char *ch)
         ret=EXIT_FAILURE;
         return ret;
     }
-    int ret=0;
+    ret=0;
     return ret;
 }
 
@@ -144,7 +144,7 @@ int CephClient::Imageread(std::string &buf,int buf_size)
      ret = image.read(0,buf_size,bl);
      if(ret<0)
      {
-         std::cout<<"could't read rbd from rados"<<ret<<ste::endl;
+         std::cout<<"could't read rbd from rados"<<ret<<std::endl;
          rados.shutdown();
          ret = EXIT_FAILURE;
          return ret;
