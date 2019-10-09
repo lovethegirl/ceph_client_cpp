@@ -70,7 +70,7 @@ int CephClient::Exit()
 {
     image.close();
     rados.shutdown();
-    return 0;
+    // return 0;
 }
 
 
@@ -106,6 +106,7 @@ int CephClient::ImageCreate(uint64_t size,int order)
     }
     return 0;
 }
+//pool存在直接打开
 int CephClient::ImageOpen()
 {
     int ret = rbd.open(io_ctx,image,name.image_name.c_str(),NULL);
@@ -124,6 +125,7 @@ int CephClient::ImageRemove(std::string imagename)
     if(ret<0)
     {
         std::cout<<"couldn't remove an rbd image! error " << ret << std::endl;
+        image.close();
         rados.shutdown();
         ret=EXIT_FAILURE;//1
         return ret;
@@ -142,6 +144,7 @@ int CephClient::Imagewrite(const char *p_ch)
     if(ret <0)
     {
         std::cout<<"could't write rbd to rados"<<ret<<std::endl;
+        image.close();
         rados.shutdown();
         ret=EXIT_FAILURE;
         return ret;
@@ -158,6 +161,7 @@ int CephClient::Imageread(std::string &buf,int buf_size)
      if(ret<0)
      {
          std::cout<<"could't read rbd from rados"<<ret<<std::endl;
+         image.close();
          rados.shutdown();
          ret = EXIT_FAILURE;
          return ret;
@@ -181,6 +185,7 @@ int CephClient::ImageCreateSnap(std::string snap_name)
     if(ret<0)
     {
         std::cout<<"could't create a snapshot"<<ret<<std::endl;
+        image.close();
         rados.shutdown();
         ret = EXIT_FAILURE;
         return ret;
@@ -188,10 +193,19 @@ int CephClient::ImageCreateSnap(std::string snap_name)
     return 0;
 }
 
-// int CephClient::ImageRemoveSnap(std::string snap_name)
-// {
-
-// }
+int CephClient::ImageRemoveSnap(std::string snap_name)
+{
+    int ret = image.snap_create(snap_name.c_str());
+    if(ret<0)
+    {
+        std::cout<<"could't create a snapshot"<<ret<<std::endl;
+        image.close();
+        rados.shutdown();
+        ret = EXIT_FAILURE;
+        return ret;
+    }
+    return 0;
+}
 /*************************************************************************
  * 
  * 

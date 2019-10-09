@@ -50,5 +50,10 @@ if(ret!=0)
 {
         return ret;
 }
+ret = client.ImageRemoveSnap(snap_name);
+if(ret!=0)
+{
+        return ret;
+}
 client.Exit();
 }
