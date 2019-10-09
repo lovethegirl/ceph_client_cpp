@@ -72,10 +72,95 @@ int CephClient::Exit()
     return 0;
 }
 
+
+/*************************************************************************
+ * 
+ * 
+ *                      image operation
+ * 
+ * 
+ *************************************************************************/
+
 int CephClient::ImageCreate(uint64_t size,int order)
 {
+    int ret=rbd.create(io_ctx,name.image_name,size,&order);
+    if(ret<0)
+    {
+        std::cout<<"couldn't create an rbd image! error " << ret << std::endl;
+        rados.shutdown();
+        ret=EXIT_FAILURE;//1
+        return ret;
+    }
+    else
+    {
+        std::cout << "we just created an rbd image" << std::endl;
+    }
+    ret = rbd.open(io_ctx,image,name.image_name.c_str(),NULL);
+    if(ret<0)
+    {
+       std::cout << "couldn't open the rbd image! error " << ret << std::endl;
+       rados.shutdwon();
+       ret = EXIT_FAILURE;
+       return ret;
+    }
     return 0;
 }
+int CephClient::ImageRemove(std::string imagename)
+{
+    int ret = rbd.remove(io_ctx,imagename.c_str());
+    if(ret<0)
+    {
+        std::cout<<"couldn't remove an rbd image! error " << ret << std::endl;
+        rados.shutdown();
+        ret=EXIT_FAILURE;//1
+        return ret;
+    }
+    return 0;
+}
+
+
+int CephClient::Imagewrite(const char *ch)
+{
+    size_t len = strlen(ch);
+    ceph::bufferlist bl;
+    bl.append(ch, len);
+
+    int ret = image.write(0,len.bl);
+    if(ret <0)
+    {
+        std::cout<<"could't write rbd to rados"<<ret<<std::endl;
+        rados.shutdown();
+        ret=EXIT_FAILURE;
+        return ret;
+    }
+    int ret=0;
+    return ret;
+}
+
+int CephClient::Imageread(std::string &buf,int buf_size)
+{
+     ceph::bufferlist bl;
+     int ret;
+     ret = image.read(0,buf_size,bl);
+     if(ret<0)
+     {
+         std::cout<<"could't read rbd from rados"<<ret<<ste::endl;
+         rados.shutdown();
+         ret = EXIT_FAILURE;
+         return ret;
+     }
+     std::string tmp(bl.c_str(),ret);
+     return 0;
+}
+
+
+/*************************************************************************
+ * 
+ * 
+ *                      object operation
+ * 
+ * 
+ *************************************************************************/
 int CephClient::ObjectWriet(std::string object_name,std::string buff)
 {
     librados::bufferlist bl;

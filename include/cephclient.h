@@ -1,3 +1,10 @@
+/*******************************************
+ * 
+ * Create at 9.27 2019 
+ * Auth David Lee
+ * Work Test for Ceph Client 
+ * 
+ * *****************************************/
 #include <rados/librados.hpp>
 #include <rbd/librbd.hpp>
 #include <iostream>
@@ -18,10 +25,9 @@ class CephClient
    int Exit();
    /******Imgae operation********/
    int ImageCreate(uint64_t size,int order);
-//    int ImageRemove(std::string image_name);
-//    int ImageOpen();
-//    int Imagewrite();
-//    int Imageread();
+   int ImageRemove(std::string image_name);
+   int Imagewrite(const char *ch);
+   int Imageread(std::string &buf,int buf_size);
 //    int ImageCreateSnap(std::string snap_name);
    
 
