@@ -197,10 +197,10 @@ int CephClient::ImageCreateSnap(std::string snap_name)
 int CephClient::ImageRemoveSnap(std::string snap_name)
 {
     std::cout<<"start remove snap"<<std::endl;
-    int ret = image.snap_create(snap_name.c_str());
+    int ret = image.snap_remove(snap_name.c_str());
     if(ret<0)
     {
-        std::cout<<"could't create a snapshot"<<ret<<std::endl;
+        std::cout<<"could't remove a snapshot"<<ret<<std::endl;
         image.close();
         rados.shutdown();
         ret = EXIT_FAILURE;

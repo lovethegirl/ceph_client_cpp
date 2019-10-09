@@ -44,12 +44,12 @@ if(ret!=0)
 //         std::cout<<"objectremove failed"<<std::endl;
 //         return ret;
 // }
-std::string snap_name="rbd-ljw@snapshot2";
-ret = client.ImageCreateSnap(snap_name);
+std::string snap_name="snapshot2";
+/*ret = client.ImageCreateSnap(snap_name);
 if(ret!=0)
 {
         return ret;
-}
+}*/
 ret = client.ImageRemoveSnap(snap_name);
 if(ret!=0)
 {
