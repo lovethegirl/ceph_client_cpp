@@ -96,14 +96,31 @@ int CephClient::ImageCreate(uint64_t size,int order)//order
     {
         std::cout << "we just created an rbd image" << std::endl;
     }
-    ret = rbd.open(io_ctx,image,name.image_name.c_str(),NULL);
+   /* ret = rbd.open(io_ctx,image,name.image_name.c_str(),NULL);
     if(ret<0)
     {
        std::cout << "couldn't open the rbd image! error " << ret << std::endl;
        rados.shutdown();
        ret = EXIT_FAILURE;
        return ret;
+    }*/
+    return 0;
+}
+int CephClient::ImageCreate(uint64_t size,int order,uint64_t features)
+{
+     int ret=rbd.create2(io_ctx,name.image_name.c_str(),size,features,&order);
+    if(ret<0)
+    {
+        std::cout<<"couldn't create an rbd image! error " << ret << std::endl;
+        rados.shutdown();
+        ret=EXIT_FAILURE;//1
+        return ret;
     }
+    else
+    {
+        std::cout << "we just created an rbd image" << std::endl;
+    }
+
     return 0;
 }
 //pool存在直接打开

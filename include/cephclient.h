@@ -25,6 +25,7 @@ class CephClient
    int Exit();
    /******Imgae operation********/
    int ImageCreate(uint64_t size,int order);
+   int ImageCreate(uint64_t size,int order,uint64_t features);
    int ImageRemove(std::string image_name);
    int ImageOpen();
    int Imagewrite(const char *p_ch);
