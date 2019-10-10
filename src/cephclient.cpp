@@ -70,7 +70,7 @@ int CephClient::Exit()
 {
     image.close();
     rados.shutdown();
-    // return 0;
+    return 0;
 }
 
 

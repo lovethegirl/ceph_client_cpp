@@ -45,11 +45,11 @@ if(ret!=0)
 //         return ret;
 // }
 std::string snap_name="snapshot2";
-/*ret = client.ImageCreateSnap(snap_name);
+ret = client.ImageCreateSnap(snap_name);
 if(ret!=0)
 {
         return ret;
-}*/
+}
 ret = client.ImageRemoveSnap(snap_name);
 if(ret!=0)
 {
