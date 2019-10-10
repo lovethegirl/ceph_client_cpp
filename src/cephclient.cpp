@@ -82,7 +82,7 @@ int CephClient::Exit()
  * 
  *************************************************************************/
 
-int CephClient::ImageCreate(uint64_t size,int order)
+int CephClient::ImageCreate(uint64_t size,int order)//order   
 {
     int ret=rbd.create(io_ctx,name.image_name.c_str(),size,&order);
     if(ret<0)

@@ -9,7 +9,7 @@ std::string object_name("hw");
 std::string pool_name="rbd";
 std::string cluster_name="ceph";
 std::string user_name="client.admin";
-std::string image_name="rbd-ljw";
+std::string image_name="rbd-ljw_";
 std::string path="/etc/ceph/ceph.conf";
 CephClient client;
 int ret;
@@ -19,6 +19,7 @@ if(ret!=0)
         std::cout<<"Cluster Init failed"<<std::endl;
         return EXIT_FAILURE;
 }
+ret = client.ImageCreate(1<<30,22);
 ret = client.ImageOpen();
 if(ret!=0)
 {
@@ -44,17 +45,6 @@ if(ret!=0)
 //         std::cout<<"objectremove failed"<<std::endl;
 //         return ret;
 // }
-std::string snap_name="snapshot2";
-ret = client.ImageCreateSnap(snap_name);
-if(ret!=0)
-{
-        return ret;
-}
-ret = client.ImageRemoveSnap(snap_name);
-if(ret!=0)
-{
-        return ret;
-}
 client.Exit();
 return 0;
 }
