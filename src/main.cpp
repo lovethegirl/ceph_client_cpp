@@ -31,19 +31,23 @@ if(ret!=0)
         return EXIT_FAILURE;
 }*/
 std::string snap_name="@snapshot1";
-
-ret = client.ImageCreateSnap(snap_name);
-if(ret!=0)
+ret = client.ImageSnapUnprotect(snap_name);
+if(ret=!=0)
 {
         return EXIT_FAILURE;
 }
-std::string ima_clo_name="ljw-rbd4";
-ret = client.ImageCloneSnap(snap_name,ima_clo_name,1,22);
-if(ret!=0)
-{
-        return EXIT_FAILURE;
-}
-ret = client.ImageRemove(name_s);
+// ret = client.ImageCreateSnap(snap_name);
+// if(ret!=0)
+// {
+//         return EXIT_FAILURE;
+// }
+// std::string ima_clo_name="ljw-rbd4";
+// ret = client.ImageCloneSnap(snap_name,ima_clo_name,1,22);
+// if(ret!=0)
+// {
+//         return EXIT_FAILURE;
+// }
+// ret = client.ImageRemove(name_s);
 
 // ret = client.ObjectWriet(object_name,hello);
 // if(ret!=0)

@@ -241,7 +241,7 @@ int CephClient::ImageCloneSnap(std::string p_snap_name, std::string c_name, uint
         ret = EXIT_FAILURE;
         return ret;
     }
-    IoCtx c_io_ctx;
+    librados::IoCtx c_io_ctx;
     ret = rbd.clone(io_ctx,name.image_name.c_str(),p_snap_name.c_str(),
     c_io_ctx,c_name.c_str(),features,c_order);
     if(ret<0)
@@ -262,6 +262,19 @@ int CephClient::ImageCloneSnap(std::string p_snap_name, std::string c_name, uint
         return ret;
     }
     ret = image.snap_unprotect(p_snap_name.c_str());
+    if(ret<0)
+    {
+        std::cout<<"could't unprotect a snapshot"<<ret<<std::endl;
+        image.close();
+        rados.shutdown();
+        ret = EXIT_FAILURE;
+        return ret;        
+    }
+    return 0;
+}
+int CephClient::ImageSnapUnprotect(std::string p_snap_name)
+{
+    int ret = image.snap_unprotect(p_snap_name.c_str());
     if(ret<0)
     {
         std::cout<<"could't unprotect a snapshot"<<ret<<std::endl;
