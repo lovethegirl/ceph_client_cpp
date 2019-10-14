@@ -227,8 +227,49 @@ int CephClient::ImageRemoveSnap(std::string snap_name)
 }
 
 
-int CephClient::ImageCloneSnap(std::string p_snap_name, std::string *c_name, uint64_t features,int *c_order)
+int CephClient::ImageCloneSnap(std::string p_snap_name, std::string c_name, uint64_t features,int *c_order)
 {
+    /*****************
+     * protect snapshot
+     * ****************/
+    int ret = image.snap_protect(p_snap_name.c_str());
+    if(ret<0)
+    {
+        std::cout<<"could't protect a snapshot"<<ret<<std::endl;
+        image.close();
+        rados.shutdown();
+        ret = EXIT_FAILURE;
+        return ret;
+    }
+    IoCtx c_io_ctx;
+    ret = rbd.clone(io_ctx,name.image_name.c_str(),p_snap_name.c_str(),
+    c_io_ctx,c_name.c_str(),features,c_order);
+    if(ret<0)
+    {
+        std::cout<<"could't clone a snapshot"<<ret<<std::endl;
+        image.close();
+        rados.shutdown();
+        ret = EXIT_FAILURE;
+        return ret;
+    }
+    ret = image.flatten();
+    if(ret<0)
+    {
+        std::cout<<"could't flatten a snapshot"<<ret<<std::endl;
+        image.close();
+        rados.shutdown();
+        ret = EXIT_FAILURE;
+        return ret;
+    }
+    ret = image.snap_unprotect(p_snap_name.c_str());
+    if(ret<0)
+    {
+        std::cout<<"could't unprotect a snapshot"<<ret<<std::endl;
+        image.close();
+        rados.shutdown();
+        ret = EXIT_FAILURE;
+        return ret;        
+    }
     return 0;
 }
 /*************************************************************************

@@ -33,7 +33,7 @@ class CephClient
    /*********Image Snapshot Operation*****/
    int ImageCreateSnap(std::string snap_name);
    int ImageRemoveSnap(std::string snap_name);
-   int ImageCloneSnap(std::string p_snap_name, std::string *c_name, uint64_t features,int *c_order)
+   int ImageCloneSnap(std::string p_snap_name, std::string c_name, uint64_t features,int *c_order);
 
    /********Rados Operation *******/
    int ObjectWriet(std::string object_name,std::string buff);
