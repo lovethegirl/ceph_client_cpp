@@ -9,7 +9,7 @@ std::string object_name("hw");
 std::string pool_name="rbd";
 std::string cluster_name="ceph";
 std::string user_name="client.admin";
-std::string image_name="rbd-ljw2";
+std::string image_name="rbd-ljw3";
 std::string path="/etc/ceph/ceph.conf";
 CephClient client;
 int ret;
@@ -19,7 +19,7 @@ if(ret!=0)
         std::cout<<"Cluster Init failed"<<std::endl;
         return EXIT_FAILURE;
 }
-ret = client.ImageCreate(1<<30,22,0);
+ret = client.ImageCreate(1<<30,22,1);
 ret = client.ImageOpen();
 if(ret!=0)
 {
