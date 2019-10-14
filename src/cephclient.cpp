@@ -225,6 +225,12 @@ int CephClient::ImageRemoveSnap(std::string snap_name)
     }
     return 0;
 }
+
+
+int CephClient::ImageCloneSnap(std::string p_snap_name, std::string *c_name, uint64_t features,int *c_order)
+{
+    return 0;
+}
 /*************************************************************************
  * 
  * 

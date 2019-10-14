@@ -25,6 +25,21 @@ if(ret!=0)
 {
 	return 0;
 }
+/*ret = client.ImageRemove(image_name);
+if(ret!=0)
+{
+        return EXIT_FAILURE;
+}*/
+/*std::string snap_name="@snapshot1";
+
+ret = client.ImageCreateSnap(snap_name);
+if(ret!=0)
+{
+        return EXIT_FAILURE;
+}
+std::string name_s="rbd-ljw3@snapshot1";
+ret = client.ImageRemove(name_s);*/
+
 // ret = client.ObjectWriet(object_name,hello);
 // if(ret!=0)
 // {
