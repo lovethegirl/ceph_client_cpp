@@ -19,6 +19,32 @@ if(ret!=0)
         std::cout<<"Cluster Init failed"<<std::endl;
         return EXIT_FAILURE;
 }
+/*****************************************
+ * object write and read
+ * **************************************/
+/*ret = client.ObjectWriet(object_name,hello);
+if(ret!=0)
+{
+        std::cout<<"objectwrite failed"<<std::endl;
+        return EXIT_FAILURE;
+}
+std::string buff;
+ret = client.ObjectRead(object_name,buff);
+if(ret != 0)
+{
+        std::cout<<"objectread failed"<<std::endl;
+        return EXIT_FAILURE;
+}
+std::cout<<buff<<std::endl;
+*/
+/*
+ret = client.ObjectRemove(object_name);
+*/
+
+
+/**************************************************************
+ *   image create 
+ * *************************************************************/
 ret = client.ImageCreate(1<<30,22,1);
 ret = client.ImageOpen();
 if(ret!=0)
@@ -30,13 +56,16 @@ if(ret!=0)
 {
         return EXIT_FAILURE;
 }*/
-std::string snap_name="@snapshot1";
-ret =client.ImageRemoveSnap(snap_name);
-// ret = client.ImageCreateSnap(snap_name);
+/*********************************************
+ * create snapshot
+ * ***********************************************/
+/*std::string snap_name="@snapshot1";
+ret = client.ImageCreateSnap(snap_name);
 if(ret!=0)
 {
          return EXIT_FAILURE;
-}
+}*/
+//ret =client.ImageRemoveSnap(snap_name);
 // std::string ima_clo_name="ljw-rbd4";
 // ret = client.ImageCloneSnap(snap_name,ima_clo_name,1,22);
 // if(ret!=0)
@@ -44,27 +73,6 @@ if(ret!=0)
 //         return EXIT_FAILURE;
 // }
 // ret = client.ImageRemove(name_s);
-
-// ret = client.ObjectWriet(object_name,hello);
-// if(ret!=0)
-// {
-//         std::cout<<"objectwrite failed"<<std::endl;
-//         return EXIT_FAILURE;
-// }
-// std::string buff;
-// ret = client.ObjectRead(object_name,buff);
-// if(ret != 0)
-// {
-//         std::cout<<"objectread failed"<<std::endl;
-//         return EXIT_FAILURE;
-// }
-// std::cout<<buff<<std::endl;
-// ret = client.ObjectRemove(object_name);
-// if(ret!=0)
-// {
-//         std::cout<<"objectremove failed"<<std::endl;
-//         return ret;
-// }
 client.Exit();
 return 0;
 }
