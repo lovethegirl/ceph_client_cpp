@@ -52,23 +52,17 @@ if(ret!=0)
 /**************************************************************
  *   image create 
  * *************************************************************/
-<<<<<<< HEAD
 /*ret = client.ImageCreate(1<<30,22,1);
-=======
 ret = client.ImageCreate(1<<30,22);
->>>>>>> c8844bae3a563c78aecd0066e6812a3e038ed61e
 ret = client.ImageOpen();
 if(ret!=0)
 {
-	return 0;
-<<<<<<< HEAD
+	return 0;<<<<<<< HEAD
 }*/
 /*ret = client.ImageRemove(image_name);
-=======
 }
  // ret = client.ImageOpen();
 /* ret = client.ImageRemove(image_name);
->>>>>>> c8844bae3a563c78aecd0066e6812a3e038ed61e
 if(ret!=0)
 {
         return EXIT_FAILURE;
