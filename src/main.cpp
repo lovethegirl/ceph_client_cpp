@@ -34,12 +34,9 @@ if(ret != 0)
 {
         std::cout<<"objectread failed"<<std::endl;
         return EXIT_FAILURE;
-}
-std::cout<<buff<<std::endl;
-*/
-/*
-ret = client.ObjectRemove(object_name);
-*/
+}*/
+//std::cout<<buff<<std::endl;
+//ret = client.ObjectRemove(object_name);
 
 ret = client.ImageOpen();
 if(ret!=0)
@@ -55,27 +52,47 @@ if(ret!=0)
 /**************************************************************
  *   image create 
  * *************************************************************/
+<<<<<<< HEAD
 /*ret = client.ImageCreate(1<<30,22,1);
+=======
+ret = client.ImageCreate(1<<30,22);
+>>>>>>> c8844bae3a563c78aecd0066e6812a3e038ed61e
 ret = client.ImageOpen();
 if(ret!=0)
 {
 	return 0;
+<<<<<<< HEAD
 }*/
 /*ret = client.ImageRemove(image_name);
+=======
+}
+ // ret = client.ImageOpen();
+/* ret = client.ImageRemove(image_name);
+>>>>>>> c8844bae3a563c78aecd0066e6812a3e038ed61e
 if(ret!=0)
 {
         return EXIT_FAILURE;
 }*/
+
+
+
+
 /*********************************************
  * create snapshot
  * ***********************************************/
-/*std::string snap_name="@snapshot1";
+/*ret = client.ImageOpen();
+std::string snap_name="@snapshot1";
 ret = client.ImageCreateSnap(snap_name);
 if(ret!=0)
 {
          return EXIT_FAILURE;
 }*/
-//ret =client.ImageRemoveSnap(snap_name);
+
+/*ret = client.ImageOpen();
+ret =client.ImageRemoveSnap(snap_name);*/
+
+
+
 // std::string ima_clo_name="ljw-rbd4";
 // ret = client.ImageCloneSnap(snap_name,ima_clo_name,1,22);
 // if(ret!=0)
