@@ -63,7 +63,7 @@ int CephClient::Init(std::string pool_name,std::string cluster_name,std::string 
         rados.shutdown();
         return ret;
     }
-    std::cout<<"we just create an ioctx for out pool"<<std::endl;
+    std::cout<<"we just create an ioctx for rbd pool"<<std::endl;
     return 0;
 }
 int CephClient::Exit()
@@ -304,6 +304,7 @@ int CephClient::ObjectWriet(std::string object_name,std::string buff)
                 rados.shutdown();
                 return ret;
     }
+    std::cout<<"we just write "<<object_name<<" to "<<name.pool_name<<std::endl;
     ret= EXIT_SUCCESS;
     return ret;
 }
