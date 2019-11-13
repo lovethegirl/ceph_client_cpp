@@ -9,7 +9,7 @@ std::string object_name("hw");
 std::string pool_name="rbd";
 std::string cluster_name="ceph";
 std::string user_name="client.admin";
-std::string image_name="rbd-ljw3";
+std::string image_name="disk01";
 std::string path="/etc/ceph/ceph.conf";
 CephClient client;
 int ret;
@@ -41,16 +41,26 @@ std::cout<<buff<<std::endl;
 ret = client.ObjectRemove(object_name);
 */
 
-
-/**************************************************************
- *   image create 
- * *************************************************************/
-ret = client.ImageCreate(1<<30,22,1);
 ret = client.ImageOpen();
 if(ret!=0)
 {
 	return 0;
 }
+const char * name = "my name is ljw";
+ret = client.Imagewrite(name);
+if(ret!=0)
+{
+        return ret;
+}
+/**************************************************************
+ *   image create 
+ * *************************************************************/
+/*ret = client.ImageCreate(1<<30,22,1);
+ret = client.ImageOpen();
+if(ret!=0)
+{
+	return 0;
+}*/
 /*ret = client.ImageRemove(image_name);
 if(ret!=0)
 {

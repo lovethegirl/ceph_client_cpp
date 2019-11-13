@@ -186,7 +186,39 @@ int CephClient::Imageread(std::string &buf,int buf_size)
      std::string tmp(bl.c_str(),ret);
      return 0;
 }
-
+int CephClient::Imageaiowrite(std::string &buf,uint64_t off,size_t len,void *arg,librbd::callback_t cb)
+{
+    ceph::bufferlist bl;
+    librbd::RBD::AioCompletion *write_completion = new librbd::RBD::AioCompletion(
+    arg, (librbd::callback_t)cb);
+    size_t lens= strlen(buf.c_str());
+    bl.append(buf.c_str(),lens);
+    int ret = image.aio_write(off,len,bl,write_completion);
+    if(ret<0)
+    {
+         std::cout<<"could't aiowrite rbd from rados"<<ret<<std::endl;
+         image.close();
+         rados.shutdown();
+         ret = EXIT_FAILURE;
+         return ret;
+    } 
+    
+   write_completion->wait_for_complete(); //等待写完成
+   ret = write_completion->get_return_value();
+   if (ret < 0) {
+         std::cout << "couldn't write! error " << ret << std::endl;
+         ret = EXIT_FAILURE;
+        image.close(); //关闭rbd映像
+        io_ctx.close(); //关闭I/O上下文
+        rados.shutdown(); //断开集群连接
+        return EXIT_FAILURE;
+    } else {
+        std::cout << "we just write data successfully, return value is " << ret << std::endl;
+        std::string tmp(bl.c_str(),ret);
+        std::cout<< tmp<<std::endl;
+        return 0
+    } 
+}
 /*************************************************************************
  * 
  * 

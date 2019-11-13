@@ -30,6 +30,8 @@ class CephClient
    int ImageOpen();
    int Imagewrite(const char *p_ch);
    int Imageread(std::string &buf,int buf_size);
+   int Imageaiowrite(std::string &buf,uint64_t off,size_t len,void *arg,librbd::callback_t cb);
+   int Imageaioread(std::string &buf,uint64_t off,size_t len,void *arg,librbd::callback_t cb);
    /*********Image Snapshot Operation*****/
    int ImageCreateSnap(std::string snap_name);
    int ImageRemoveSnap(std::string snap_name);
