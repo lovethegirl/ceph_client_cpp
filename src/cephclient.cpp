@@ -151,13 +151,13 @@ int CephClient::ImageRemove(std::string imagename)
 }
 
 
-int CephClient::Imagewrite(const char *p_ch)
+int CephClient::Imagewrite(int setoff,const char *p_ch)
 {
     size_t len = strlen(p_ch);
     ceph::bufferlist bl;
     bl.append(p_ch, len);
 
-    int ret = image.write(0,len,bl);
+    int ret = image.write(setoff,len,bl);
     if(ret <0)
     {
         std::cout<<"could't write rbd to rados"<<ret<<std::endl;
@@ -216,7 +216,7 @@ int CephClient::Imageaiowrite(std::string &buf,uint64_t off,size_t len,void *arg
         std::cout << "we just write data successfully, return value is " << ret << std::endl;
         std::string tmp(bl.c_str(),ret);
         std::cout<< tmp<<std::endl;
-        return 0
+        return 0;
     } 
 }
 /*************************************************************************

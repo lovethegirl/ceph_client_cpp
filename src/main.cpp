@@ -2,11 +2,12 @@
 // #include <string>
 // #include <rados/librados.hpp>
 #include"../include/cephclient.h"
+#include<stdlib.h>
 int main(int argc, const char **argv)
 {
 std::string hello("hello wrold");
 std::string object_name("hw");
-std::string pool_name="rbd";
+std::string pool_name="rbd-com";
 std::string cluster_name="ceph";
 std::string user_name="client.admin";
 std::string image_name="disk01";
@@ -43,12 +44,30 @@ if(ret!=0)
 {
 	return 0;
 }
-const char * name = "my name is ljw";
-ret = client.Imagewrite(name);
-if(ret!=0)
+for(int i=0;i<10;++i)
 {
+        for(int j=0;j<256;++j)
+        {
+        //string object=object_name+to_string(i)+"_"+to_string(j);
+        srand(i+j);
+        string str;
+        for(int y=0;y<4096*1024;++y)
+        {
+                str=str+('A'+rand()%26);
+        }
+        ret = client.Imagewrite(i*1024*1024*1024+j*4096*1024,str.c_str());
+        }
+        if(ret!=0)
+        {
         return ret;
+        }
 }
+// const char * name = "my name is ljw";
+// ret = client.Imagewrite(name);
+// if(ret!=0)
+// {
+//         return ret;
+// }
 /**************************************************************
  *   image create 
  * *************************************************************/
