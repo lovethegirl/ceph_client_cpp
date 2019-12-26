@@ -26,7 +26,7 @@ if(ret!=0)
         std::cout<<"Cluster Init failed"<<std::endl;
         return EXIT_FAILURE;
 }
-/*****************************************
+/****************************************
  * object write and read
  * **************************************/
 /*ret = client.ObjectWriet(object_name,hello);
