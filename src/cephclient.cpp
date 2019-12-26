@@ -151,12 +151,11 @@ int CephClient::ImageRemove(std::string imagename)
 }
 
 
-int CephClient::Imagewrite(int setoff,const char *p_ch)
+int CephClient::Imagewrite(uint64_t setoff,const char *p_ch)
 {
     size_t len = strlen(p_ch);
     ceph::bufferlist bl;
     bl.append(p_ch, len);
-
     int ret = image.write(setoff,len,bl);
     if(ret <0)
     {

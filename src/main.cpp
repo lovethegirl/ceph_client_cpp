@@ -3,8 +3,14 @@
 // #include <rados/librados.hpp>
 #include"../include/cephclient.h"
 #include<stdlib.h>
+//#include<string>
 int main(int argc, const char **argv)
 {
+if(argc<2)
+{
+	std::cout<<"pls input the argument"<<std::endl;
+	return 0;
+}
 std::string hello("hello wrold");
 std::string object_name("hw");
 std::string pool_name="rbd-com";
@@ -44,23 +50,33 @@ if(ret!=0)
 {
 	return 0;
 }
-for(int i=0;i<10;++i)
+int G = atoi(argv[1]);
+std::cout<<G<<std::endl;
+for(uint64_t i=0;i<G;++i)
 {
-        for(int j=0;j<256;++j)
+        for(uint64_t j=0;j<256;++j)
         {
         //string object=object_name+to_string(i)+"_"+to_string(j);
-        srand(i+j);
-        string str;
-        for(int y=0;y<4096*1024;++y)
-        {
-                str=str+('A'+rand()%26);
-        }
-        ret = client.Imagewrite(i*1024*1024*1024+j*4096*1024,str.c_str());
-        }
-        if(ret!=0)
-        {
-        return ret;
-        }
+          srand(i+j);
+	  std::string str;
+	  int y=0;
+	  for(;y<1024*1024;++y)
+          {
+	  str+=('A'+rand()%26);
+	  str+=('A'+rand()%26);
+	  str+=('A'+rand()%26);
+	  str+=('A'+rand()%26);
+	  }
+	  //const char *str=(char*)(('A'+rand()%26)+('a'+rand()%26)+('a'+rand()%26)+('A'+rand()%26));
+          ret = client.Imagewrite((uint64_t)(i*1024*1024*1024+j*4*1024*1024),str.c_str());
+          if(ret!=0)
+	  {
+		  std::cout<<"write fail"<<std::endl;
+		  return 0;
+	  }
+	  std::cout<<"write "<<i<<"G  "<<(j+1)*4<<"M"<<std::endl;
+        }  
+	std::cout<<"write "<<i+1<<"G"<<std::endl;
 }
 // const char * name = "my name is ljw";
 // ret = client.Imagewrite(name);

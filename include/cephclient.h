@@ -28,7 +28,7 @@ class CephClient
    int ImageCreate(uint64_t size,int order,uint64_t features);
    int ImageRemove(std::string image_name);
    int ImageOpen();
-   int Imagewrite(int setoff,const char *p_ch);
+   int Imagewrite(uint64_t setoff,const char *p_ch);
    int Imageread(std::string &buf,int buf_size);
    int Imageaiowrite(std::string &buf,uint64_t off,size_t len,void *arg,librbd::callback_t cb);
    int Imageaioread(std::string &buf,uint64_t off,size_t len,void *arg,librbd::callback_t cb);
