@@ -19,9 +19,9 @@ typedef struct  RBD_ID
 class CephClient
 {
    public:
-   CephClient();
+   CephClient(std::string pool_name,std::string cluster_name,std::string user_name,std::string path,std::string image_name);
    ~CephClient();
-   int Init(std::string pool_name,std::string cluster_name,std::string user_name,std::string path,std::string image_name);
+   int InitPool();
    int Exit();
    /******Imgae operation********/
    int ImageCreate(uint64_t size,int order);
@@ -30,6 +30,8 @@ class CephClient
    int ImageOpen();
    int Imagewrite(int setoff,const char *p_ch);
    int Imageread(std::string &buf,int buf_size);
+   int Imagediscard(uint64_t offset,uint64_t len);
+   int Imageaiodiscard(uint64_t offset,uint64_t len,void *arg,librbd::callback_t cb);
    int Imageaiowrite(std::string &buf,uint64_t off,size_t len,void *arg,librbd::callback_t cb);
    int Imageaioread(std::string &buf,uint64_t off,size_t len,void *arg,librbd::callback_t cb);
    /*********Image Snapshot Operation*****/
@@ -47,6 +49,10 @@ class CephClient
    librados::IoCtx io_ctx;
    librbd::RBD rbd;
    librbd::Image image;
-   
+   std::string pool_name;
+   std::string cluster_name;
+   std::string user_name;
+   std::string path;
+   std::string image_name;
 };
 #endif
