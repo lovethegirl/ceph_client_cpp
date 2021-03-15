@@ -1,17 +1,7 @@
 #include"../include/cephclient.h"
-CephClient::CephClient()
+CephClient::CephClient(std::string pool_name,std::string cluster_name,std::string user_name,std::string path,std::string image_name):
+pool_name(pool_name),cluster_name(cluster_name),user_name(user_name),path(path),image_name(image_name)
 {
-    std::cout<<"start a CephClient"<<std::endl;
-}
-CephClient::~CephClient()
-{
-    std::cout<<"exit a CephClient"<<std::endl;
-}
-int CephClient::Init(std::string pool_name,std::string cluster_name,std::string user_name,std::string path,std::string image_name)
-{
-    //初始化pool image 名字
-    name.pool_name=pool_name;
-    name.image_name=image_name;
     int ret=0;
     //初始化集群
     ret = rados.init2(user_name.c_str(),cluster_name.c_str(),0);
@@ -33,15 +23,6 @@ int CephClient::Init(std::string pool_name,std::string cluster_name,std::string 
     } else {
         std::cout << "Read the Ceph configuration file." << std::endl;
     } 
-    /* {
-   ret = rados.conf_parse_argv(argc, argv);
-    if (ret < 0) {
-        std::cerr << "Couldn't parse command line options! error " << ret << std::endl;
-        return EXIT_FAILURE;
-    } else {
-        std::cout << "Parsed command line options." << std::endl;
-        }
-    }*/
     //链接集群，初始化RadosClient
     ret = rados.connect();
     if(ret<0)
@@ -53,7 +34,15 @@ int CephClient::Init(std::string pool_name,std::string cluster_name,std::string 
     {
         std::cout << "Connected to the cluster." << std::endl;
     }
-    
+    return ret;
+}
+
+CephClient::~CephClient()
+{
+    std::cout<<"exit a CephClient"<<std::endl;
+}
+int CephClient::InitPool()
+{ 
     // 初始化iotcx
     ret = rados.ioctx_create(pool_name.c_str(),io_ctx);
     if(ret<0)
@@ -63,7 +52,7 @@ int CephClient::Init(std::string pool_name,std::string cluster_name,std::string 
         rados.shutdown();
         return ret;
     }
-    std::cout<<"we just create an ioctx for rbd pool"<<std::endl;
+    std::cout<<"we just create an ioctx for rbd "<<pool_name<<std::endl;
     return 0;
 }
 int CephClient::Exit()
@@ -84,19 +73,19 @@ int CephClient::Exit()
 
 int CephClient::ImageCreate(uint64_t size,int order)//order   
 {
-    int ret=rbd.create(io_ctx,name.image_name.c_str(),size,&order);
+    int ret=rbd.create(io_ctx,image_name.c_str(),size,&order);
     if(ret<0)
     {
-        std::cout<<"couldn't create an rbd image! error " << ret << std::endl;
+        std::cout<<"couldn't create an rbd "<<image_name << ret << std::endl;
         rados.shutdown();
         ret=EXIT_FAILURE;//1
         return ret;
     }
     else
     {
-        std::cout << "we just created an rbd image" << std::endl;
+        std::cout << "we just created an rbd "<<image_name<< std::endl;
     }
-   /* ret = rbd.open(io_ctx,image,name.image_name.c_str(),NULL);
+   /* ret = rbd.open(io_ctx,image,image_name.c_str(),NULL);
     if(ret<0)
     {
        std::cout << "couldn't open the rbd image! error " << ret << std::endl;
@@ -108,17 +97,17 @@ int CephClient::ImageCreate(uint64_t size,int order)//order
 }
 int CephClient::ImageCreate(uint64_t size,int order,uint64_t features)
 {
-     int ret=rbd.create2(io_ctx,name.image_name.c_str(),size,features,&order);
+    int ret=rbd.create2(io_ctx,image_name.c_str(),size,features,&order);
     if(ret<0)
     {
-        std::cout<<"couldn't create an rbd image! error " << ret << std::endl;
+        std::cout<<"couldn't create an rbd " <<image_name<< ret << std::endl;
         rados.shutdown();
         ret=EXIT_FAILURE;//1
         return ret;
     }
     else
     {
-        std::cout << "we just created an rbd image" << std::endl;
+        std::cout << "we just created an rbd " <<image_name<< std::endl;
     }
 
     return 0;
@@ -126,10 +115,10 @@ int CephClient::ImageCreate(uint64_t size,int order,uint64_t features)
 //pool存在直接打开
 int CephClient::ImageOpen()
 {
-    int ret = rbd.open(io_ctx,image,name.image_name.c_str(),NULL);
+    int ret = rbd.open(io_ctx,image,image_name.c_str(),NULL);
     if(ret<0)
     {
-       std::cout << "couldn't open the rbd image! error " << ret << std::endl;
+       std::cout << "couldn't open the rbd " <<image_name<< ret << std::endl;
        rados.shutdown();
        ret = EXIT_FAILURE;
        return ret;
@@ -141,7 +130,7 @@ int CephClient::ImageRemove(std::string imagename)
     int ret = rbd.remove(io_ctx,imagename.c_str());
     if(ret<0)
     {
-        std::cout<<"couldn't remove an rbd image! error " << ret << std::endl;
+        std::cout<<"couldn't remove an rbd " <<image_name<<ret << std::endl;
         image.close();
         rados.shutdown();
         ret=EXIT_FAILURE;//1
@@ -203,21 +192,59 @@ int CephClient::Imageaiowrite(std::string &buf,uint64_t off,size_t len,void *arg
          return ret;
     } 
     
-   write_completion->wait_for_complete(); //等待写完成
-   ret = write_completion->get_return_value();
-   if (ret < 0) {
-         std::cout << "couldn't write! error " << ret << std::endl;
-         ret = EXIT_FAILURE;
-        image.close(); //关闭rbd映像
-        io_ctx.close(); //关闭I/O上下文
-        rados.shutdown(); //断开集群连接
-        return EXIT_FAILURE;
-    } else {
+//    write_completion->wait_for_complete(); //
+//    ret = write_completion->get_return_value();
+//    if (ret < 0) {
+//          std::cout << "couldn't write! error " << ret << std::endl;
+//          ret = EXIT_FAILURE;
+//         image.close(); //关闭rbd映像
+//         io_ctx.close(); //关闭I/O上下文
+//         rados.shutdown(); //断开集群连接
+//         return EXIT_FAILURE;
+//     } 
+else {
         std::cout << "we just write data successfully, return value is " << ret << std::endl;
         std::string tmp(bl.c_str(),ret);
         std::cout<< tmp<<std::endl;
         return 0;
     } 
+}
+
+int CephClient::Imageaioread(std::string &buf,uint64_t off,size_t len,void *arg,librbd::callback_t cb)
+{
+    ceph::bufferlist read_buff;
+    librbd::RBD::AioCompletion *read_completion = new librbd::RBD::AioCompletion(
+    arg, (librbd::callback_t)cb);
+    int ret=image.aio_read(off,len,read_buff,read_completion);
+    if(ret)
+    {
+         std::cout<<"could't aioread rbd from rados"<<ret<<std::endl;
+         image.close();
+         rados.shutdown();
+         ret = EXIT_FAILURE;
+         return ret;
+    }
+    else
+    {
+        std::cout<<"we just read data successfully, return value is"<<ret<<std::endl;
+        std::string tmp(bl.c_str(),ret);
+        std::cout<< tmp<<std::endl;
+        return 0;
+    }   
+}
+
+int CephClient::Imagediscard(uint64_t offset,uint64_t len)
+{
+    int ret=image.discard(offset,len);
+    return ret;
+}
+
+int CephClient::Imageaiodiscard(uint64_t offset,uint64_t len,void *arg,librbd::callback_t cb)
+{
+     librbd::RBD::AioCompletion *discard_completion = new librbd::RBD::AioCompletion(
+    arg, (librbd::callback_t)cb);
+    int ret= image.aio_discard(offset,len,discard_completion);
+    return ret;
 }
 /*************************************************************************
  * 
@@ -274,7 +301,7 @@ int CephClient::ImageCloneSnap(std::string p_snap_name, std::string c_name, uint
         return ret;
     }
     librados::IoCtx c_io_ctx;
-    ret = rbd.clone(io_ctx,name.image_name.c_str(),p_snap_name.c_str(),
+    ret = rbd.clone(io_ctx,image_name.c_str(),p_snap_name.c_str(),
     c_io_ctx,c_name.c_str(),features,c_order);
     if(ret<0)
     {
@@ -336,7 +363,7 @@ int CephClient::ObjectWriet(std::string object_name,std::string buff)
                 rados.shutdown();
                 return ret;
     }
-    std::cout<<"we just write "<<object_name<<" to "<<name.pool_name<<std::endl;
+    std::cout<<"we just write "<<object_name<<" to "<<pool_name<<std::endl;
     ret= EXIT_SUCCESS;
     return ret;
 }
